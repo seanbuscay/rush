@@ -45,14 +45,14 @@ PROJECT_BRIEF          = "Drush tools to enhance and improve Drupal development 
 # exceed 55 pixels and the maximum width should not exceed 200 pixels. 
 # Doxygen will copy the logo to the output directory.
 
-PROJECT_LOGO           = 
+PROJECT_LOGO           = "/Users/buscay/Documents/rush logo/surfboard.png"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
 # If a relative path is entered, it will be relative to the location 
 # where doxygen was started. If left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = "../../../Desktop/untitled folder"
+OUTPUT_DIRECTORY       = ../../rush-pages
 
 # If the CREATE_SUBDIRS tag is set to YES, then doxygen will create 
 # 4096 sub-directories (in 2 levels) under the output directory of each output 
@@ -1777,7 +1777,7 @@ UML_LOOK               = NO
 # the class node. If there are many fields or methods and many nodes the 
 # graph may become too big to be useful. The UML_LIMIT_NUM_FIELDS 
 # threshold limits the number of items for each type to make the size more 
-# manageable. Set this to 0 for no limit. Note that the threshold may be
+# managable. Set this to 0 for no limit. Note that the threshold may be 
 # exceeded by 50% before the limit is enforced.
 
 UML_LIMIT_NUM_FIELDS   = 10

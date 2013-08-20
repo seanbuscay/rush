@@ -25,7 +25,7 @@ Currently in Beta.  Ready for initial public release.
 
 ## Documentation  {#sec-documentation}
 
-Visit http://seanbuscay.github.io/rush/ to view full project documentation.
+Visit http://seanbuscay.github.io/rush/html/ to view full project documentation.
 
 ## Example Usage  {#sec-example-usage}
 
@@ -66,7 +66,7 @@ After install, run the following:
 
 You should see the message `Hello World` in your terminal.
 
-See the [Install Guide](http://seanbuscay.github.io/rush/doc-install-guide.html) for further detail, dependencies, and requirements.
+See the [Install Guide](http://seanbuscay.github.io/rush/html/doc-install-guide.html) for further detail, dependencies, and requirements.
 
 ## Background  {#sec-background}
 
