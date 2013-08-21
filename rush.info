@@ -1,0 +1,5 @@
+name = Drush Rush
+description = Drush tools to enhance and improve Drupal development operations and workflow.
+core = 7.x
+package = Drush
+dependencies[] = drush
