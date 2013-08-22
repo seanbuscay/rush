@@ -129,7 +129,8 @@ function rush_list_files($root = '.') {
 
   while (count($directories)) {
     $dir = array_pop($directories);
-    if ($handle = opendir($dir)) {
+    $handle = opendir($dir);
+    if ($handle) {
       while (FALSE !== ($file = readdir($handle))) {
         if ($file == '.' || $file == '..') {
           continue;
