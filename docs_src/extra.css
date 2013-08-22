@@ -3,7 +3,7 @@ table.params td div {
 }
 
 code {
-  background-color: #D8D8D8;
+  background-color: #d8d8d8;
 }
 
 /* from http://drupalcode.org/project/zen.git/blob/02bf6957125273736925f8cf1564461800c50941:/STARTERKIT/css/normalize.css */
@@ -168,24 +168,6 @@ body {
 /* ==========================================================================
    Links
    ========================================================================== */
-
-/**
- * The order of link states are based on Eric Meyer's article:
- * http://meyerweb.com/eric/thoughts/2007/06/11/who-ordered-the-link-states
- */
-
-a:link {
-}
-
-a:visited {
-}
-
-a:hover,
-a:focus {
-}
-
-a:active {
-}
 
 /**
  * Address `outline` inconsistency between Chrome and other browsers.
