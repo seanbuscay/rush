@@ -41,6 +41,7 @@ require dirname(__FILE__) . '/rush.inc';
 
 /**
  * Implements hook_drush_command().
+ * @todo figure a way to create a new branch even when one is not called.
  */
 function rush_drush_command() {
 
@@ -65,6 +66,19 @@ function rush_drush_command() {
         'description'   => 'Rush prefix to select a different rush.ini or rush.php to run.',
         'example-value' => 'un,pre-build,post-build',
       ),
+      'branch'   => array(
+        'description'   => 'Branch to use for jobs that use the [repo][branch] parameter.  This will affect jobs that run the rush clone operation.  Passing this paramter at runtime is a good way to clone a different git branch to run the rush job against.',
+        'example-value' => 'develop,master,sprint1,new-feature',
+      ),       
+      'new-branch'   => array(
+        'description'   => 'New branch name to use for jobs that use the [repo][new_branch] parameter.  This will affect jobs that run the rush branch operation.  Passing this parameter at runtime is a good way to create new feature branches that start from the branch defined in the rush job.',
+        'example-value' => 'new~feature,experiment',
+      ),
+      'create-branch'   => array(
+        'description'   => 'Create a new branch with the specified name, after all rush operations have run.  This option runs `git branch` after the rush job.  It differs from the `new-branch` option in that this option runs at the end of the job and does not need the rush branch operation to be present in the rush file.',
+        'example-value' => 'new~feature,experiment',
+      ),
+
     ),
     'examples'    => array(
       'drush rush jobName'               => 'Run the rush files within the job directory named "jobName"',
@@ -72,6 +86,11 @@ function rush_drush_command() {
       'drush rush jobName --show=ops'    => 'Parse rush files and output the rush operations that would occur if the rush file were run.',
       'drush rush jobName --show=params' => 'Parse rush param files and output all params (rush jobName plus global directory) for inspection.',
       'drush rush jobName --rush=clean'  => 'Run the rush job within the "jobName" and use the rush file `clean.rush.ini` or `clean.rush.php`',
+      'drush rush jobName --branch=develop'  => 'Run the rush job and clone from the `develop` branch, overriding the branch set in the job ini files.',
+      'drush rush jobName --new-branch=experiment'  => 'Run the rush job and create a new branch called `experiment` when the `git_branch` rush operation is called.',
+
+
+
     ),
     'aliases'     => array('dr'),
     // No bootstrap at all.
@@ -204,6 +223,10 @@ function drush_rush() {
     $show_mode = drush_get_option('show');
 
     return _rush_show($params, $show_mode, $rush_operations);
+  }
+  if (drush_get_option('create-branch', FALSE)) {
+    $rush_operations[] = 'git_create_branch';
+
   }
 
   $msg = dt('[ERROR]: An error occurred while running this drush operation: ');
