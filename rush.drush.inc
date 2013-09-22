@@ -219,15 +219,16 @@ function drush_rush() {
 
   $params          = rush_get_params();
   $rush_operations = rush_get_operations($params);
+  if (drush_get_option('create-branch', FALSE)) {
+    $rush_operations[]['f'] = 'git_create_branch';
+
+  }
   if (drush_get_option('show', FALSE)) {
     $show_mode = drush_get_option('show');
 
     return _rush_show($params, $show_mode, $rush_operations);
   }
-  if (drush_get_option('create-branch', FALSE)) {
-    $rush_operations[] = 'git_create_branch';
 
-  }
 
   $msg = dt('[ERROR]: An error occurred while running this drush operation: ');
   // @backlog Make a progress meter based on number of operations to run.
