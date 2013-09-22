@@ -102,13 +102,26 @@ function rush_get_params() {
 
     include_once "$params_php_file";
   }
+  $command_line = array();
   // Add in options passed on the command line.
   if (drush_get_option('domain', FALSE)) {
-    $params['build']['domain'] = drush_get_option('domain');
+    $command_line['domain'] = $params['build']['domain'] = drush_get_option('domain');
   }
+  if (drush_get_option('branch', FALSE)) {
+    $command_line['branch'] = $params['repo']['branch'] = drush_get_option('branch');
+  }
+  if (drush_get_option('new-branch', FALSE)) {
+    $command_line['new-branch'] = $params['repo']['new_branch'] = drush_get_option('new-branch');
+  }
+  if (drush_get_option('create-branch', FALSE)) {
+    $command_line['create-branch'] = $params['repo']['create_branch'] = drush_get_option('create-branch');
+  }
+
+  $params['command_line_params'] = $command_line;
   // PREP AND RETURN PARAMS
   // Add global locations to the params array to inspect in the --show=params
-  // output
+  // output.
+  // @backlog Change to allow job name override.
   $params['global_locations'] = $global_locations;
   $args                       = drush_get_arguments();
   $params['build']['job']     = $args[1];
