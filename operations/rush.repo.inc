@@ -209,7 +209,7 @@ function rush_op_git_push($params) {
  *   An associative array of all rush parameters.
  *   - $params['build']['directory_path'] string
  *     Required. A string containing the path to the build's directory.
- *   - $params['repo']['new_branch'] string $repo_new_branch
+ *   - $params['repo']['new_branch'] string
  *     Required. A string indicating the name of the new branch.
  *
  * @return bool
@@ -259,6 +259,36 @@ function rush_op_git_checkout($params) {
   return rush_shell_exec($cmd, $msg, 'RUSH_REPO_OP_ERROR', __FUNCTION__);
 
 }
+
+/**
+ * Run `git checkout -b` to create and checkout a new branch with the specified name.
+ *
+ * @param array $params
+ *   An associative array of all rush parameters.
+ *   - $params['build']['directory_path'] string
+ *     Required. A string containing the path to the build's directory.
+ *   - $params['repo']['create_branch'] string
+ *     Required. A string indicating the name of the new branch.
+ *
+ * @return bool
+ *   Returns TRUE on success or FALSE on fail (via drush_set_error).
+ */
+function rush_op_git_create_branch($params) {
+
+  if (empty($params['build']['directory_path'])) {
+    return rush_empty_error('$params[\'build\'][\'directory_path\']', __FUNCTION__);
+  }
+  if (empty($params['repo']['create_branch'])) {
+    return rush_empty_error('$params[\'repo\'][\'create_branch\']', __FUNCTION__);
+  }
+
+  $msg = dt('[Create Branch]: !repo_new_branch ', array('!repo_new_branch' => $params['repo']['create_branch']));
+  $cmd = 'cd ' . $params['build']['directory_path'] . '; git checkout -b ' . $params['repo']['create_branch'];
+
+  return rush_shell_exec($cmd, $msg, 'RUSH_REPO_OP_ERROR', __FUNCTION__);
+
+}
+
 
 /**
  * Run `git remote add` in the specified directory.
