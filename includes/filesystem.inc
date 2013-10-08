@@ -132,7 +132,7 @@ function rush_list_files($root = '.') {
     $handle = opendir($dir);
     if ($handle) {
       while (FALSE !== ($file = readdir($handle))) {
-        if ($file == '.' || $file == '..') {
+        if ($file == '.' || $file == '..' || $file == '.git') {
           continue;
         }
         $file = $dir . $file;
