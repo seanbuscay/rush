@@ -3,7 +3,7 @@ Drush Rush
 
 Drush tools to enhance and improve Drupal development operations and workflow.
 
-## Purpose  {#sec-purpose}
+## Purpose 
 
 Welcome to the Drush Rush Project.
 
@@ -16,7 +16,7 @@ The project's purpose is to allow Drupal Developers to:
 
 Currently in Beta.  Ready for initial public release.
 
-## Documentation  {#sec-documentation}
+## Documentation
 
 Visit http://seanbuscay.github.io/rush/html/ to view full project documentation.
 
