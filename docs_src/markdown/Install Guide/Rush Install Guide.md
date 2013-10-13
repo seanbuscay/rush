@@ -1,14 +1,15 @@
-Install Guide  {#doc-install-guide}
-=============
-
-@brief How to install the Drush Rush module, how to setup your Rush Application folder, and how to create a parameters file for your environment.
-
-Install Guide Page  {#page-install-guide}
-==================
+Rush Install Guide  {#doc-install-guide}
+===============
 
 [TOC]
 
-## Setup  {#sec-setup}
+@brief How to install the Drush Rush module, how to setup your Rush Application folder, and how to create a parameters file for your environment.
+
+Rush Install Guide  {#page-install-guide}
+====================
+
+
+## Setup {#sec-setup}
 
 **Note:** Setup will discuss two directories:
 
@@ -20,13 +21,13 @@ Note the lowercase and the uppercase titles for the directories.
 The `rush` module directory contains the rush module code, like any other Drush module.
 The `Rush` application folder will contain your configurations, and Rush jobs.
 
-### 1. Install Drush & the Drush Rush Module  {#sec-install-drush}
+### 1. Install Drush & the Drush Rush Module {#sec-install}
 
 Drush Rush depends on drush (the DRUpal SHell).
 
 To use Drush Rush, you will need to install Drush.
 
-See the install instructions on the [Drush Project Page](http://drupal.org/project/drush)
+* See the install instructions on the [Drush Project Page](https://github.com/drush-ops/drush)
 
 The Drush Rush module may by installed in the `.drush` folder within your HOME folder.
 
@@ -41,7 +42,7 @@ The following commands will clone the Drush Rush module into your `.drush` folde
     cd ~
     git clone git@github.com:seanbuscay/rush.git .drush/rush
 
-### 2. Create a Drush Rush Application Directory  {#sec-create-app-directory}
+### 2. Create a Drush Rush Application Directory {#sec-create-application-directory}
 
 You will need a Rush application folder within your HOME directory.  Drush Rush can do this for you.
 
@@ -56,21 +57,21 @@ After the command runs, you should have a folder named Rush in your HOME directo
     ~/Rush/environment/params.ini
     ~/Rush/jobs
 
-### 3.  Set Your Environment Parameters  {#sec-set-params}
+### 3.  Set Your Environment Parameters {#sec-set-parameters}
 
 Within your new params file `~/Rush/environment/params.ini`, add parameters which define your personal development environment.
 
 Drush Rush will derive many of your environment parameters for you.
 
-See @ref doc-parameters-list for a list of the most common Drush Rush parameters.
+#### Rush Environment Params Examples
 
-See @ref doc-key-terminology for an overview of the terminology and concepts used in Drush Rush.
+See @ref doc-env-params-examples
 
-## Additional Setup for Host Operations    {#sec-additional}
+## Additional Setup for Host Operations {#sec-host-setup}
 
-###  Configure Virtual Hosts  {#sec-vhosts}
+###  Configure Virtual Hosts {#sec-virtual-hosts}
 
-If you are note using a Debian based operating system such as Ubuntu, then you'll need to configure Apache to use a "sites-available" directory for your vhost entries.
+If you are not using a Debian based operating system such as Ubuntu, then you'll need to configure Apache to use a "sites-available" directory for your vhost entries.
 
 #### 1. Locate where Apache runs on your system and the location of your Apache config file.
 

@@ -1,9 +1,9 @@
 Parameters List  {#doc-parameters-list}
 ===============
 
-@brief A list of parameters which rush may use.
+@brief A list of parameters which Rush may use.
 
-Parameters List Page  {#page-parameters-list}
+Parameters List   {#page-parameters-list}
 ====================
 
 [TOC]
