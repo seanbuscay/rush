@@ -1,12 +1,5 @@
-Drush Rush Readme File  {#readme-file}
-=======================
-
-@brief An introduction to the Drush Rush project, including the project's purpose, background, and example usage.
-
-Drush Rush  {#readme}
-==========
-
-[TOC]
+Drush Rush
+=========
 
 Drush tools to enhance and improve Drupal development operations and workflow.
 
@@ -19,7 +12,7 @@ The project's purpose is to allow Drupal Developers to:
 - Reduce typical Drupal development workflows down to one step (one Drush command).
 - Create re-usable and share-able Drupal development operations and workflows.
 
-## Project Status  {#sec-project-status}
+## Project Status
 
 Currently in Beta.  Ready for initial public release.
 
@@ -27,7 +20,7 @@ Currently in Beta.  Ready for initial public release.
 
 Visit http://seanbuscay.github.io/rush/html/ to view full project documentation.
 
-## Example Usage  {#sec-example-usage}
+## Example Usage
 
 Run a Drush Rush command like:
 
@@ -52,7 +45,7 @@ To parse the job folder's rush files for build parameters and build operations a
 15. Put the build under version control
 16. Create a remote repo (such as on GITHUB), commit the code, and push it
 
-## Quick Start Install  {#sec-quick-start-install}
+## Quick Start Install
 
 *Assuming you already have Drush installed*
 
@@ -68,7 +61,7 @@ You should see the message `Hello World` in your terminal.
 
 See the [Install Guide](http://seanbuscay.github.io/rush/html/doc-install-guide.html) for further detail, dependencies, and requirements.
 
-## Background  {#sec-background}
+## Background
 
 This project originates out of experience using Jenkins to automate building and testing Drupal projects.
 
@@ -102,7 +95,7 @@ In most cases the build jobs are a series of core drush commands chained togethe
 4.  Drush Rush jobs are **light weight**.  Drush Rush may be used to execute steps as part of a continuous integration or automated testing process, however, it is not a CI or Testing Suite.
 
 
-## Tested Platforms  {#sec-tested-platforms}
+## Tested Platforms
 
 1. Tested and working with a standard LAMP Stack on Ubuntu 12.x
 2. Tested and working on Mac OSX Mountain Lion AMP Stack defined here: [OSX AMP](http://coolestguyplanettech.com/downtown/install-and-configure-apache-mysql-php-and-phpmyadmin-osx-108-mountain-lion)
