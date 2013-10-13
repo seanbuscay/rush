@@ -18,7 +18,7 @@ Currently in Beta.  Ready for initial public release.
 
 ## Documentation
 
-Visit http://seanbuscay.github.io/rush/html/ to view full project documentation.
+Visit http://palantirnet.github.io/rush/html/ to view full project documentation.
 
 ## Example Usage
 
@@ -50,7 +50,7 @@ To parse the job folder's rush files for build parameters and build operations a
 *Assuming you already have Drush installed*
 
     cd ~
-    git clone git@github.com:seanbuscay/rush.git .drush/rush
+    git clone git@github.com:palantirnet/rush.git .drush/rush
     drush rush init
 
 After install, run the following:
@@ -59,7 +59,7 @@ After install, run the following:
 
 You should see the message `Hello World` in your terminal.
 
-See the [Install Guide](http://seanbuscay.github.io/rush/html/doc-install-guide.html) for further detail, dependencies, and requirements.
+See the [Install Guide](http://palantirnet.github.io/rush/html/doc-install-guide.html) for further detail, dependencies, and requirements.
 
 ## Background
 
