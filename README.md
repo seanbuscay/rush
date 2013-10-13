@@ -1,24 +1,17 @@
 Drush Rush
 =========
+Welcome to the Drush Rush Project.
 
 Drush tools to enhance and improve Drupal development operations and workflow.
-
-## Purpose 
-
-Welcome to the Drush Rush Project.
 
 The project's purpose is to allow Drupal Developers to:
 
 - Reduce typical Drupal development workflows down to one step (one Drush command).
 - Create re-usable and share-able Drupal development operations and workflows.
 
-## Project Status
+[Documentation](http://palantirnet.github.io/rush/html/) | [Install](http://palantirnet.github.io/rush/html/doc-install-guide.html) | [Releases](https://github.com/palantirnet/rush/releases) | [What's New](http://palantirnet.github.io/rush/html/doc-whats-new.html)
 
-Currently in Beta.  Ready for initial public release.
-
-## Documentation
-
-Visit http://palantirnet.github.io/rush/html/ to view full project documentation.
+---
 
 ## Example Usage
 
@@ -99,4 +92,3 @@ In most cases the build jobs are a series of core drush commands chained togethe
 
 1. Tested and working with a standard LAMP Stack on Ubuntu 12.x
 2. Tested and working on Mac OSX Mountain Lion AMP Stack defined here: [OSX AMP](http://coolestguyplanettech.com/downtown/install-and-configure-apache-mysql-php-and-phpmyadmin-osx-108-mountain-lion)
-
