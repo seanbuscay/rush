@@ -40,7 +40,7 @@ After install the Rush README file would be located here:
 The following commands will clone the Drush Rush module into your `.drush` folder.
 
     cd ~
-    git clone git@github.com:seanbuscay/rush.git .drush/rush
+    git clone git@github.com:palantirnet/rush.git .drush/rush
 
 ### 2. Create a Drush Rush Application Directory {#sec-create-application-directory}
 

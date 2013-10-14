@@ -17,10 +17,6 @@ The project's purpose is to allow Drupal Developers to:
 - Reduce typical Drupal development workflows down to one step (one Drush command).
 - Create re-usable and share-able Drupal development operations and workflows.
 
-## Project Status {#sec-status} 
-
-Currently in Beta.  Ready for initial public release.
-
 ## Background {#sec-background}
 
 This project originates out of experience using Jenkins to automate building and testing Drupal projects.
@@ -56,7 +52,7 @@ In most cases the build jobs are a series of core drush commands chained togethe
 
 ## An Illustrated Use Case {#sec-use-case}
 
-Drush Example Use Case
+@ref Drush Rush Use Case Illustration.pdf
 
 ## Example Usage {#sec-example}
 
