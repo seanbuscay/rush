@@ -52,7 +52,7 @@ In most cases the build jobs are a series of core drush commands chained togethe
 
 ## An Illustrated Use Case {#sec-use-case}
 
-@ref Drush Rush Use Case Illustration.pdf
+[Download an Illustrated Use Case PDF](Drush-Rush-Use-Case-Illustration.pdf)
 
 ## Example Usage {#sec-example}
 

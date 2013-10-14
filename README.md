@@ -9,7 +9,7 @@ The project's purpose is to allow Drupal Developers to:
 - Reduce typical Drupal development workflows down to one step (one Drush command).
 - Create re-usable and share-able Drupal development operations and workflows.
 
-[Documentation](http://palantirnet.github.io/rush/html/) | [Install](http://palantirnet.github.io/rush/html/doc-install-guide.html) | [Releases](https://github.com/palantirnet/rush/releases) | [What's New](http://palantirnet.github.io/rush/html/doc-whats-new.html)
+[An Illustrated Use Case](http://palantirnet.github.io/rush/html/Drush-Rush-Use-Case-Illustration.pdf) | [Documentation](http://palantirnet.github.io/rush/html/) | [Install](http://palantirnet.github.io/rush/html/doc-install-guide.html) | [Releases](https://github.com/palantirnet/rush/releases) | [What's New](http://palantirnet.github.io/rush/html/doc-whats-new.html)
 
 ---
 
