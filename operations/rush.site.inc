@@ -88,7 +88,7 @@ function rush_op_set_drupal_variables($params) {
 
   // These two variables will be passed to rush_invoke inside of the foreach
   // loop below. These two variables do not change based on the loop.
-  $alias = drush_sitealias_get_record('@self');
+  $alias = $params['build']['site_alias_record'];
   // Use the exact flag because the parameters file should only use exact
   // variable names.
   $options = array(
