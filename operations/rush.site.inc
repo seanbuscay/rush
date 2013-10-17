@@ -67,11 +67,13 @@ function rush_op_make($params) {
 /**
  * Wrapper for drush variable-set.
  *
- * This rush command takes an array Drupal variable names and their values
+ * This rush command takes an array of Drupal variable names and their values
  * and sets them with "drush variable-set"
  *
  * @param array $params
  *   An associative array of all rush parameters.
+ *   - $params['build']['site_alias_record'] array
+ *   Required. A drush site alias record.
  *   - $params['drupal_variables'] array
  *   Required. A flat array with variable names as keys and their values as
  *   the array values. For example:
@@ -79,11 +81,18 @@ function rush_op_make($params) {
  *     'site_name' => 'My Great Blog Site',
  *     'clean_url' => '1',
  *   );
+ *
+ * @return bool
+ *   TRUE on success.  FALSE with errors.
  */
 function rush_op_set_drupal_variables($params) {
 
   if (empty($params['drupal_variables'])) {
     return rush_empty_error('$params[\'drupal_variables\']', __FUNCTION__);
+  }
+
+  if (empty($params['build']['site_alias_record'])) {
+    return rush_empty_error('$params[\'build\'][\'site_alias_record\']', __FUNCTION__);
   }
 
   // These two variables will be passed to rush_invoke inside of the foreach
