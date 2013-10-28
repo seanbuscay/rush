@@ -51,12 +51,16 @@ function rush_drush_command() {
   $items['rush'] = array(
     'description' => "Run a rush file with rush operations in it.",
     'arguments'   => array(
-      'job' => 'Required. The name of the job directory within the Rush Application folder.',
+      'job' => 'The name of the job directory within the Rush Application folder.  No argument will result in a select list of jobs.',
     ),
     'options'     => array(
       'show'   => array(
         'description'   => 'Show mode. Utility to inspect operations or params without actually running the job.',
         'example-value' => 'ops,params, See drush rush-show -h for more examples.',
+      ),
+      'select'   => array(
+        'description'   => 'Flag to tell rush to list jobs from another location.  Only --select=jt or --select=job-templates are used at this time to list jobs from the job templates folder.',
+        'example-value' => 'job-templates,jt',
       ),
       'domain' => array(
         'description'   => 'Domain to use for jobs that use the [build][domain] parameter.',
@@ -174,9 +178,6 @@ function rush_drush_help($section) {
 function drush_rush_validate() {
 
   $args = drush_get_arguments();
-  if (!isset($args[1])) {
-    return drush_set_error('MISSING_ARGUMENT', dt('Please supply a job as an argument.'));
-  }
   if (isset($args[2])) {
     return drush_set_error('EXTRA_ARGUMENT', dt('It looks like you added a second argument.  Did you mean to add a parameter instead, such as --show=params?'));
   }
@@ -216,6 +217,46 @@ function drush_rush_list_validate() {
  *   FALSE on failure.
  */
 function drush_rush() {
+  $args = drush_get_arguments();
+  // Check for the job argument. 
+  if (!isset($args[1])) {
+    $global_locations = rush_get_global_locations();
+    // Set default values.
+    $directory_path = $global_locations['RUSH_JOBS_DIRECTORY_PATH'];
+    $directory_name = $global_locations['RUSH_JOBS_DIRECTORY_NAME'];
+    $rush_dir_name  = $global_locations['RUSH_HOME_DIRECTORY_NAME'];
+
+
+    if (drush_get_option('select', FALSE)) {
+      $select = drush_get_option('select');
+      switch ($select) {
+        case 'job-templates':
+        case 'jt':
+          $directory_path = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH'];
+          $directory_name = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_NAME'];
+          $rush_dir_name  = trim($global_locations['RUSH_MODULE_DIRECTORY_PATH'], '/');
+          break;
+      }
+    }
+    
+    // Get the jobs list.
+    $jobs = _rush_list_jobs($directory_path, $directory_name, $rush_dir_name);
+    $jobs = drush_map_assoc($jobs);
+    // Present a list of jobs as options to the user.
+    $job = drush_choice($jobs, 'Enter a number to choose which job to run.', '!key');
+    if ($job !== FALSE) {
+      $args[1] = $jobs[$job];
+      drush_set_arguments($args);
+    }
+    else {
+      $msg = dt('[Rush]: !message', array('!message' => 'Canceled'));
+      drush_log($msg, 'status');
+
+      return;
+    }
+    
+    
+  }
 
   $params          = rush_get_params();
   $rush_operations = rush_get_operations($params);
@@ -283,8 +324,8 @@ function drush_rush_list() {
 
   $global_locations = rush_get_global_locations();
   // Set default values.
-  $files          = rush_list_files($global_locations['RUSH_JOBS_DIRECTORY_PATH']);
   $msg            = rush_message_wrapper(dt('JOBS LIST'), 0);
+  $directory_path = $global_locations['RUSH_JOBS_DIRECTORY_PATH'];
   $directory_name = $global_locations['RUSH_JOBS_DIRECTORY_NAME'];
   $rush_dir_name  = $global_locations['RUSH_HOME_DIRECTORY_NAME'];
 
@@ -295,8 +336,8 @@ function drush_rush_list() {
     switch ($show_mode) {
       case 'job-templates':
       case 'jt':
-        $files          = rush_list_files($global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH']);
         $msg            = rush_message_wrapper(dt('JOB TEMPLATES LIST'), 0);
+        $directory_path = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH'];
         $directory_name = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_NAME'];
         $rush_dir_name  = trim($global_locations['RUSH_MODULE_DIRECTORY_PATH'], '/');
         break;
@@ -316,18 +357,13 @@ function drush_rush_list() {
         return drush_set_error('DRUSH_RUSH_INVALID_OPTION', $msg);
     }
   }
-
+  
   // Tell the user what list they will get.
   drush_print($msg);
-  $jobs_list = $files['dirs'];
-  // Sort the directory names by alpha order.
-  natcasesort($jobs_list);
-
-  foreach ($jobs_list as $job) {
-    $job = explode("/$rush_dir_name/$directory_name/", $job);
-    $job = trim($job[1], '/');
-    $job = str_replace('/', '.', $job);
-    drush_print_r($job);
+  // Get the jobs list.
+  $jobs = _rush_list_jobs($directory_path, $directory_name, $rush_dir_name);
+  foreach ($jobs as $job) {
+    drush_print($job);
   }
   $msg = rush_message_wrapper(dt('END LIST'), 0);
   drush_print($msg);

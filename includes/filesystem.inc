@@ -16,7 +16,7 @@
  */
 
 /**
- * Helper function to confirm important directories exists on the system.
+ * Function to confirm important directories exists on the system.
  *
  * This function is currently not in use.
  *
@@ -108,17 +108,19 @@ function rush_get_global_locations() {
 }
 
 /**
- * List the directories and files in the specified root directory.
+ * Return a list of Rush jobs.
  *
  * @param string $root
- *   Required.  The root directory to begin listing within.
+ *   Required. The root directory path to start running through.
+ * @param string $directory_name
+ *   Required.  The name of the jobs directory. 
+ * @param string $rush_dir_name
+ *   Required.  The Rush home directory, usually `~/Rush`.
  *
  * @return array
- *   An array of directories and files.
- *   $files['files'] is a list of all files.
- *   $files['dirs'] is a list of all directories.
+ *   An array of Rush jobs.
  */
-function rush_list_files($root = '.') {
+function _rush_list_jobs($root, $directory_name, $rush_dir_name) {
 
   $files       = array('files' => array(), 'dirs' => array());
   $directories = array();
@@ -148,8 +150,21 @@ function rush_list_files($root = '.') {
       closedir($handle);
     }
   }
-
-  return $files;
+  
+  
+  // Turn the directories list into a list of jobs. 
+  $jobs_list = $files['dirs'];
+  // Sort the directory names by alpha order.
+  natcasesort($jobs_list);
+  $jobs = array();
+  foreach ($jobs_list as $job) {
+    $job = explode("/$rush_dir_name/$directory_name/", $job);
+    $job = trim($job[1], '/');
+    $job = str_replace('/', '.', $job);
+    $jobs[] = $job;
+  }
+  
+  return $jobs;
 }
 
 /**
