@@ -7,3 +7,4 @@
 include dirname(__FILE__) . '/params.inc';
 include dirname(__FILE__) . '/ops.inc';
 include dirname(__FILE__) . '/filesystem.inc';
+include dirname(__FILE__) . '/output.inc';

@@ -24,55 +24,13 @@ require dirname(__FILE__) . '/operations/operations.inc';
  * @{
  */
 
+
 /**
  * @addtogroup command_helpers Command Helpers
  * @brief Functions to help with Drush Rush Commands.
  * @{
  */
 
-/**
- * Helper function to output a consistent error message for empty parameters.
- *
- * @param string $value
- *   Required. A string containing the name of the parameter missing a value.
- * @param string $function
- *   Required.  A string containing the name of the calling function.
- *
- * @return bool
- *   Always returns FALSE via drush_set_error()
- */
-function rush_empty_error($value, $function) {
-
-  return drush_set_error('RUSH_EMPTY_VALUE', dt('[ERROR]: *** !value should be set when calling !function. ***', array(
-    '!value'    => $value,
-    '!function' => $function,
-  )));
-}
-
-/**
- * Helper function used to style messages to the console.
- *
- * @param string $message
- *   A string containing the message text to style.
- * @param int $style
- *   An integer indicating which style to use for the message.
- *
- * @return string
- *   The styled message string.
- */
-function rush_message_wrapper($message = '', $style = 0) {
-
-  $msg = '';
-  switch ($style) {
-    case 0:
-      $msg .= "\n**********$message********************************************\n";
-      break;
-  }
-
-  $msg = substr($msg, 0, 80);
-
-  return ($msg);
-}
 
 /**
  * A wrapper for drush_invoke_process().
