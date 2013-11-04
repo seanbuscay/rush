@@ -207,5 +207,60 @@ function _rush_show($params, $mode, $operations) {
   }
 }
 
+function _rush_docs_selection () {
+
+    $topics = array(
+                     'docs-rush-ops-db', 
+                     'docs-rush-ops-repo',
+                     'docs-rush-ops-site',
+                     'docs-rush-ops-utility',
+                     'docs-rush-ops-filesystem',
+                     'docs-rush-ops-host',
+                     );
+    $topics = drush_map_assoc($topics);
+    // Present a list of topics as options to the user.
+    $topic = drush_choice($topics, 'Enter a number to choose which topic to read.', '!key');
+    if ($topic !== FALSE) {
+      $args = array($topics[$topic]);
+      return drush_invoke_process('@self', 'topic', $args);
+    }
+    else {
+      $msg = dt('[Rush]: !message', array('!message' => 'Canceled'));
+      drush_log($msg, 'status');
+
+      return;
+    }
+
+
+}
+
+function _rush_ops_table_selection () {
+
+    $ops = array(
+                     'db', 
+                     'repo',
+                     'site',
+                     'utilities',
+                     'filesystem',
+                     'host',
+                     );
+    $ops = drush_map_assoc($ops);
+    // Present a list of ops as options to the user.
+    $op = drush_choice($ops, 'Enter a number to choose which group of operations to display.', '!key');
+    if ($op !== FALSE) {
+      $file = 'rush.' . $ops[$op] . '.inc';
+      _rush_print_ops_table ($file);
+    }
+    else {
+      $msg = dt('[Rush]: !message', array('!message' => 'Canceled'));
+      drush_log($msg, 'status');
+
+      return;
+    }
+
+
+}
+
+
 /** @}*/
 /** @}*/

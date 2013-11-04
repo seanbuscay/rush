@@ -108,19 +108,16 @@ function rush_get_global_locations() {
 }
 
 /**
- * Return a list of Rush jobs.
+ * Return an array of files and directories in a given directory path.
  *
  * @param string $root
  *   Required. The root directory path to start running through.
- * @param string $directory_name
- *   Required.  The name of the jobs directory. 
- * @param string $rush_dir_name
- *   Required.  The Rush home directory, usually `~/Rush`.
  *
  * @return array
- *   An array of Rush jobs.
+ *   An multi-demensional array of files and directories.
+ *   `$files = $files['files']` and `$directories = $files['dirs']`
  */
-function _rush_list_jobs($root, $directory_name, $rush_dir_name) {
+function _rush_inspect_directory($root) {
 
   $files       = array('files' => array(), 'dirs' => array());
   $directories = array();
@@ -151,7 +148,26 @@ function _rush_list_jobs($root, $directory_name, $rush_dir_name) {
     }
   }
   
-  
+  return $files;
+}
+
+
+/**
+ * Return a list of Rush jobs.
+ *
+ * @param string $root
+ *   Required. The root directory path to start running through.
+ * @param string $directory_name
+ *   Required.  The name of the jobs directory. 
+ * @param string $rush_dir_name
+ *   Required.  The Rush home directory, usually `~/Rush`.
+ *
+ * @return array
+ *   An array of Rush jobs.
+ */
+function _rush_list_jobs($root, $directory_name, $rush_dir_name) {
+
+  $files = _rush_inspect_directory($root);
   // Turn the directories list into a list of jobs. 
   $jobs_list = $files['dirs'];
   // Sort the directory names by alpha order.
