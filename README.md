@@ -15,8 +15,6 @@ The project's purpose is to allow Drupal Developers to:
 
 ---
 
-Test
-
 ## Example Usage
 
 Run a Drush Rush command like:
@@ -96,5 +94,3 @@ In most cases the build jobs are a series of core drush commands chained togethe
 
 1. Tested and working with a standard LAMP Stack on Ubuntu 12.x
 2. Tested and working on Mac OSX Mountain Lion AMP Stack defined here: [OSX AMP](http://coolestguyplanettech.com/downtown/install-and-configure-apache-mysql-php-and-phpmyadmin-osx-108-mountain-lion)
-
-Test
