@@ -16,13 +16,6 @@
  *   3. /usr/share/drush/commands (configurable)
  *   4. In an arbitrary folder specified with the --include option.
  *   5. Drupal's sites/all/drush folder.
- * @backlog Create user stories.
- * @backlog Demo videos.
- * @backlog Code review for code consistency.
- * @backlog Add the ability to pass a parameters file at run time.
- * @backlog Add ability to pass parameters at run time.
- * @backlog Add a"CreateJob" job to create a job skeleton file structure.
- * @todo Write end-user documentation.
  */
 
 require dirname(__FILE__) . '/rush.inc';
@@ -41,7 +34,6 @@ require dirname(__FILE__) . '/rush.inc';
 
 /**
  * Implements hook_drush_command().
- * @todo figure a way to create a new branch even when one is not called.
  */
 function rush_drush_command() {
 
@@ -117,7 +109,7 @@ function rush_drush_command() {
     // No bootstrap at all.
     'bootstrap'   => DRUSH_BOOTSTRAP_DRUSH,
   );
-
+  
   $items['rush-show'] = array(
     'description' => 'A utility to inspect operations or params without actually running a job.  This is a convenience command which does the same thing as running rush with the --show option.',
     'arguments'   => array(
@@ -151,6 +143,80 @@ function rush_drush_command() {
     // No bootstrap at all.
     'bootstrap'   => DRUSH_BOOTSTRAP_DRUSH,
   );
+  
+  // Add docs topic.
+  $docs_dir = rush_self_path() . 'operations/';
+  
+  $items['rush-docs'] = array(
+    'description' => 'Rush: Topics List',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => '_rush_docs_selection',
+  );
+  
+  $items['rush-ops-tables'] = array(
+    'description' => 'Rush: Display a summary table of a selected operation group.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => '_rush_ops_table_selection',
+  );
+  
+  $items['docs-rush-ops-db'] = array(
+    'description' => 'Rush: DB operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.db.inc'),
+  );
+  
+  $items['docs-rush-ops-repo'] = array(
+    'description' => 'Rush: Repo operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.repo.inc'),
+  );
+  
+  $items['docs-rush-ops-site'] = array(
+    'description' => 'Rush: Site operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.site.inc'),
+  );
+  
+  $items['docs-rush-ops-host'] = array(
+    'description' => 'Rush: Host operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.host.inc'),
+  );
+
+  $items['docs-rush-ops-filesystem'] = array(
+    'description' => 'Rush: Filesystem operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.filesystem.inc'),
+  );
+  
+  $items['docs-rush-ops-utility'] = array(
+    'description' => 'Rush: Utility operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.utilities.inc'),
+  );
+  
 
   return $items;
 }
@@ -162,7 +228,10 @@ function rush_drush_help($section) {
 
   switch ($section) {
     case 'drush:rush':
-      return dt('Run rush operations defined in Rush job files. Drush rush is a tool to enhance and improve Drupal development operations and work flow.');
+      return dt('
+      Run rush operations defined in Rush job files. 
+      Drush rush is a tool to enhance and improve Drupal development operations and work flow.
+      Run `drush rush-docs` for further help.');
 
     case 'drush:rush-list':
       return dt('List all the jobs in the Rush Application folder jobs directory.');
@@ -203,7 +272,7 @@ function drush_rush_list_validate() {
  * @brief Callback functions for each Drush Rush command.
  * @{
  */
-
+ 
 /**
  * Drush rush command callback.
  *

@@ -15,7 +15,6 @@ require dirname(__FILE__) . '/operations/operations.inc';
  * @brief Helper functions for Drush Rush commands.
  * @details These helper functions include functions to:
  * - provide wrappers to Drush functions and commands
- * - provide error and message formatting
  * - provide service functions for Rush commands
  *
  * Though not strictly internal or private, these functions are mainly used by
