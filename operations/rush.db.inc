@@ -25,6 +25,7 @@
 
 /**
  * Export a database to the specified file.
+ *
  * Wrapper for `drush sql-dump`.
  *
  * @param array $params
@@ -63,7 +64,8 @@ function rush_op_sql_dump($params) {
 }
 
 /**
- * Run the sql in the file specified by $params['db']['file_path']. 
+ * Run the sql in the file specified by $params['db']['file_path'].
+ *
  * Uses `drush sql-query`.
  *
  * @param array $params
@@ -191,6 +193,7 @@ function rush_op_sql_destroy_db($params) {
 
 /**
  * Create a database.
+ *
  * Wrapper for `drush sql-create`.  
  *
  * @param array $params

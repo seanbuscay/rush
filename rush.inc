@@ -67,7 +67,7 @@ function rush_invoke($alias, $command, $args, $options, $function, $type = 'mess
 
     $msg = dt('[ERROR]: *** !operation failed to run: !cmd_string ***', array(
       '!cmd_string' => $cmd_string,
-      '!operation'  => $function,
+      '!operation' => $function,
     ));
 
     return drush_set_error('RUSH_INVOKE_ERROR', $msg);
@@ -103,7 +103,7 @@ function rush_shell_exec($cmd, $msg, $error, $function, $type = 'message') {
   }
   else {
     $error_msg = dt('[ERROR]: *** Failed to run: !cmd in !function ***', array(
-      '!cmd'      => $cmd,
+      '!cmd' => $cmd,
       '!function' => $function,
     ));
 
@@ -182,10 +182,10 @@ function _rush_show($params, $mode, $operations) {
       $msg = rush_message_wrapper(dt(" PATHS "), 0);
       drush_print_r($msg);
       $paths['build_paths']['root_directory_path'] = $params['build']['root_directory_path'];
-      $paths['build_paths']['directory_path']      = $params['build']['directory_path'];
-      $paths['build_paths']['docroot_path']        = $params['build']['docroot_path'];
-      $paths['db_paths']['directory_path']         = $params['db']['directory_path'];
-      $paths['global_paths']                       = $params['global_locations'];
+      $paths['build_paths']['directory_path'] = $params['build']['directory_path'];
+      $paths['build_paths']['docroot_path'] = $params['build']['docroot_path'];
+      $paths['db_paths']['directory_path'] = $params['db']['directory_path'];
+      $paths['global_paths'] = $params['global_locations'];
       drush_print_r($paths);
       $msg = rush_message_wrapper(dt(" END PATHS "), 0);
       drush_print_r($msg);
@@ -206,57 +206,32 @@ function _rush_show($params, $mode, $operations) {
   }
 }
 
-function _rush_docs_selection () {
+/**
+ * Help function to select which docs to display information about.
+ *
+ * @return mixed
+ *   FALSE on error.  Array on drush_invoke_process success.
+ */
+function _rush_docs_selection() {
 
-    $topics = array(
-                     'docs-rush-ops-db', 
-                     'docs-rush-ops-repo',
-                     'docs-rush-ops-site',
-                     'docs-rush-ops-utility',
-                     'docs-rush-ops-filesystem',
-                     'docs-rush-ops-host',
-                     );
-    $topics = drush_map_assoc($topics);
-    // Present a list of topics as options to the user.
-    $topic = drush_choice($topics, 'Enter a number to choose which topic to read.', '!key');
-    if ($topic !== FALSE) {
-      $args = array($topics[$topic]);
-      return drush_invoke_process('@self', 'topic', $args);
-    }
-    else {
-      $msg = dt('[Rush]: !message', array('!message' => 'Canceled'));
-      drush_log($msg, 'status');
+  $topics = array(
+    'rush-ops-tables',
+    'docs-rush-ops-db',
+    'docs-rush-ops-repo',
+    'docs-rush-ops-site',
+    'docs-rush-ops-utility',
+    'docs-rush-ops-filesystem',
+    'docs-rush-ops-host',
+  );
+  $topics = drush_map_assoc($topics);
+  // Present a list of topics as options to the user.
+  $topic = drush_choice($topics, 'Enter a number to choose which topic to read.', '!key');
+  if ($topic !== FALSE) {
+    $args = array($topics[$topic]);
+    return drush_invoke_process('@self', 'topic', $args);
+  }
 
-      return;
-    }
-
-
-}
-
-function _rush_ops_table_selection () {
-
-    $ops = array(
-                     'db', 
-                     'repo',
-                     'site',
-                     'utilities',
-                     'filesystem',
-                     'host',
-                     );
-    $ops = drush_map_assoc($ops);
-    // Present a list of ops as options to the user.
-    $op = drush_choice($ops, 'Enter a number to choose which group of operations to display.', '!key');
-    if ($op !== FALSE) {
-      $file = 'rush.' . $ops[$op] . '.inc';
-      _rush_print_ops_table ($file);
-    }
-    else {
-      $msg = dt('[Rush]: !message', array('!message' => 'Canceled'));
-      drush_log($msg, 'status');
-
-      return;
-    }
-
+  return FALSE;
 
 }
 
