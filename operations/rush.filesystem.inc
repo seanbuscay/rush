@@ -21,7 +21,7 @@
  */
 
 /**
- * Create directories within the designated directory.
+ * Create directories within the specified directory.
  *
  * @backlog Write tests.
  *
@@ -64,7 +64,7 @@ function rush_op_create_directories($params) {
 }
 
 /**
- * Create the build directory at the designated path.
+ * Create the build directory at the specified path.
  *
  * @backlog Write tests.
  *
@@ -74,6 +74,10 @@ function rush_op_create_directories($params) {
  *     Required. A string containing the path to the build's directory.
  *   - $params['build']['backups_directory_path'] string
  *     Required. A string containing the path to the backups directory.
+ *   - $params['build']['key'] string
+ *     Required. A string containing a unique job id.
+ *   - $params['build']['directory_name'] string
+ *     Required. A string containing the build directory name. 
  *
  * @return bool
  *   TRUE on success. FALSE on error.
@@ -150,7 +154,7 @@ function rush_op_create_build_directory($params) {
 }
 
 /**
- * Destroy the build directory at the designated path.
+ * Destroy the build directory at the specified path.
  *
  * @backlog Write tests.
  *
@@ -188,7 +192,7 @@ function rush_op_destroy_build_directory($params) {
 }
 
 /**
- * Create files within the designated directory.
+ * Create files within the specified directory.
  *
  * @backlog Write tests.
  *
@@ -235,7 +239,7 @@ function rush_op_create_files($params) {
 }
 
 /**
- * Create a .gitignore file within the designated directory.
+ * Create a .gitignore file within the specified directory.
  *
  * @backlog Write tests.
  *

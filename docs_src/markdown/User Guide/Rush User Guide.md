@@ -40,12 +40,12 @@ To recap:
 
 ## The Rush Application Folder {#sec-application-folder}
 
-After you [install Rush](@ref doc-install-guide) you will have a Rush application folder on your system. 
+After you [install Rush](@ref doc-install-guide) you will have a Rush application folder on your system.
 
-Your Rush jobs go in this folder. 
-Your environment files also go in this folder to tell Rush about your local system and your global preferences. 
+Your Rush jobs go in this folder.
+Your environment files also go in this folder to tell Rush about your local system and your global preferences.
 
-Below is an outline of your typical Rush application directory structure: 
+Below is an outline of your typical Rush application directory structure:
 
 - Rush (`~/Rush/`)
     - The Drush Rush application folder in your HOME directory, which contains an `environment` directory and a `jobs` directory.
@@ -55,7 +55,7 @@ Below is an outline of your typical Rush application directory structure:
     - Put parameters in this directory to use as defaults for most jobs.  Then override these parameters at the job level if needed.
 
 - jobs (`~/Rush/jobs`)
-    - Contains job folders. Put your job folders in here. 
+    - Contains job folders. Put your job folders in here.
 
 - a job folder (`~/Rush/jobs/jobName`)
     - Contains a rush file with operations and typically a params file for the specific job.
@@ -92,9 +92,9 @@ There are two main commands for Drush Rush:
         'example-value' => 'un,pre-build,post-build',
       ),
       'branch'   => array(
-        'description'   => 'Branch to use for jobs that use the [repo][branch] parameter.  This will affect jobs that run the rush clone operation.  Passing this paramter at runtime is a good way to clone a different git branch to run the rush job against.',
+        'description'   => 'Branch to use for jobs that use the [repo][branch] parameter.  This will affect jobs that run the rush clone operation.  Passing this parameter at runtime is a good way to clone a different git branch to run the rush job against.',
         'example-value' => 'develop,master,sprint1,new-feature',
-      ),       
+      ),
       'new-branch'   => array(
         'description'   => 'New branch name to use for jobs that use the [repo][new_branch] parameter.  This will affect jobs that run the rush branch operation.  Passing this parameter at runtime is a good way to create new feature branches that start from the branch defined in the rush job.',
         'example-value' => 'new~feature,experiment',
