@@ -28,7 +28,8 @@
  *      - Operations in the job php file will run after all other operations
  *        to this point.
  *   5. Get pre rush operations from the environment rush ini file if it exists.
- *   6. Get pre rush operations from the environment operations php file if it exists.
+ *   6. Get pre rush operations from the environment operations php file if it
+ *      exists.
  *
  * @param array $params
  *   An associative array of rush parameters.
@@ -36,14 +37,15 @@
  *   the function makes them available to the include files.
  *
  * @return mixed
- *   An associative array of all rush operations, with any enironment ops prepended.
+ *   An associative array of all rush operations, with any environment ops
+ *   prepended.
  *   False via drush set error if now operations are found.
  * @backlog Fix to just return an empty array().
  */
 function rush_get_operations($params) {
 
   $global_locations = rush_get_global_locations();
-  $rush_type        = '';
+  $rush_type = '';
   if (drush_get_option('rush', FALSE)) {
     $rush_type = drush_get_option('rush');
     $rush_type = $rush_type . '.';
@@ -67,12 +69,11 @@ function rush_get_operations($params) {
 
     include_once "$rush_php_file";
   }
- 
+
   $top_job_rush = $rush;
   unset($rush_ini_file, $rush_php_file);
   unset($rush);
-  
-  
+
   // 3) Get rush operations from the job rush ini file if it exists.
   $rush = array();
   $rush_ini_file = $global_locations['RUSH_JOB_DIRECTORY_PATH'] . $rush_type . 'rush.ini';
@@ -91,11 +92,11 @@ function rush_get_operations($params) {
 
     include_once "$rush_php_file";
   }
-  
+
   $job_rush = $rush;
   unset($rush_ini_file, $rush_php_file);
   unset($rush);
-  
+
   // Now check for any pre rush operations in the `environment` directory.
   // 5) Get pre rush operations from the environment rush ini file if it exists.
   $rush = array();
@@ -105,7 +106,8 @@ function rush_get_operations($params) {
     drush_log($msg, 'notice');
     $rush = rush_parse_operations_ini($rush_ini_file);
   }
-  // 6) Get pre rush operations from the environment operations php file if it exists.
+  // 6) Get pre rush operations from the environment operations php file
+  // if it exists.
   $rush_php_file = $global_locations['RUSH_ENVIRONMENT_DIRECTORY_PATH'] . 'pre.rush.php';
   if (file_exists($rush_php_file)) {
     $msg = $msg = dt('[LOAD RUSH FILE]: !file.', array('!file' => $rush_php_file));
@@ -113,14 +115,13 @@ function rush_get_operations($params) {
 
     include_once "$rush_php_file";
   }
-  
+
   $env_pre_rush = $rush;
   unset($rush_ini_file, $rush_php_file);
   unset($rush);
- 
+
   // Now check for any post rush operations in the `environment` directory.
-  
-  // 7) Get post rush operations from the environment rush ini file if it exists.
+  // 7) Get post rush operations from environment rush ini file if it exists.
   $rush = array();
   $rush_ini_file = $global_locations['RUSH_ENVIRONMENT_DIRECTORY_PATH'] . 'post.rush.ini';
   if (file_exists($rush_ini_file)) {
@@ -128,7 +129,8 @@ function rush_get_operations($params) {
     drush_log($msg, 'notice');
     $rush = rush_parse_operations_ini($rush_ini_file);
   }
-  // 8) Get post rush operations from the environment operations php file if it exists.
+  // 8) Get post rush operations from environment operations php file if
+  // it exists.
   $rush_php_file = $global_locations['RUSH_ENVIRONMENT_DIRECTORY_PATH'] . 'post.rush.php';
   if (file_exists($rush_php_file)) {
     $msg = $msg = dt('[LOAD RUSH FILE]: !file.', array('!file' => $rush_php_file));
@@ -137,7 +139,6 @@ function rush_get_operations($params) {
     include_once "$rush_php_file";
   }
   $env_post_rush = $rush;
-
 
   // Check if job operations exist.
   // If so, then merge pre and post and return array.
