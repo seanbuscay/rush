@@ -8,13 +8,13 @@ Rush Developer Guide  {#doc-developer-guide}
 Rush Developer Guide  {#page-developer-guide}
 ====================
 
-## Code Documentaation {#sec-code-documentation}
+## Code Documentation {#sec-code-documentation}
 
 ## Branching {#sec-branching}
 
 - gitflow
 - match to user story
-- ,atch to ticlet
+- patch to ticket
 - pull request
 - can do multi ? 
 

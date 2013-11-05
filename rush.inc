@@ -15,7 +15,6 @@ require dirname(__FILE__) . '/operations/operations.inc';
  * @brief Helper functions for Drush Rush commands.
  * @details These helper functions include functions to:
  * - provide wrappers to Drush functions and commands
- * - provide error and message formatting
  * - provide service functions for Rush commands
  *
  * Though not strictly internal or private, these functions are mainly used by
@@ -24,55 +23,13 @@ require dirname(__FILE__) . '/operations/operations.inc';
  * @{
  */
 
+
 /**
  * @addtogroup command_helpers Command Helpers
  * @brief Functions to help with Drush Rush Commands.
  * @{
  */
 
-/**
- * Helper function to output a consistent error message for empty parameters.
- *
- * @param string $value
- *   Required. A string containing the name of the parameter missing a value.
- * @param string $function
- *   Required.  A string containing the name of the calling function.
- *
- * @return bool
- *   Always returns FALSE via drush_set_error()
- */
-function rush_empty_error($value, $function) {
-
-  return drush_set_error('RUSH_EMPTY_VALUE', dt('[ERROR]: *** !value should be set when calling !function. ***', array(
-    '!value'    => $value,
-    '!function' => $function,
-  )));
-}
-
-/**
- * Helper function used to style messages to the console.
- *
- * @param string $message
- *   A string containing the message text to style.
- * @param int $style
- *   An integer indicating which style to use for the message.
- *
- * @return string
- *   The styled message string.
- */
-function rush_message_wrapper($message = '', $style = 0) {
-
-  $msg = '';
-  switch ($style) {
-    case 0:
-      $msg .= "\n**********$message********************************************\n";
-      break;
-  }
-
-  $msg = substr($msg, 0, 80);
-
-  return ($msg);
-}
 
 /**
  * A wrapper for drush_invoke_process().
@@ -110,7 +67,7 @@ function rush_invoke($alias, $command, $args, $options, $function, $type = 'mess
 
     $msg = dt('[ERROR]: *** !operation failed to run: !cmd_string ***', array(
       '!cmd_string' => $cmd_string,
-      '!operation'  => $function,
+      '!operation' => $function,
     ));
 
     return drush_set_error('RUSH_INVOKE_ERROR', $msg);
@@ -146,7 +103,7 @@ function rush_shell_exec($cmd, $msg, $error, $function, $type = 'message') {
   }
   else {
     $error_msg = dt('[ERROR]: *** Failed to run: !cmd in !function ***', array(
-      '!cmd'      => $cmd,
+      '!cmd' => $cmd,
       '!function' => $function,
     ));
 
@@ -225,10 +182,10 @@ function _rush_show($params, $mode, $operations) {
       $msg = rush_message_wrapper(dt(" PATHS "), 0);
       drush_print_r($msg);
       $paths['build_paths']['root_directory_path'] = $params['build']['root_directory_path'];
-      $paths['build_paths']['directory_path']      = $params['build']['directory_path'];
-      $paths['build_paths']['docroot_path']        = $params['build']['docroot_path'];
-      $paths['db_paths']['directory_path']         = $params['db']['directory_path'];
-      $paths['global_paths']                       = $params['global_locations'];
+      $paths['build_paths']['directory_path'] = $params['build']['directory_path'];
+      $paths['build_paths']['docroot_path'] = $params['build']['docroot_path'];
+      $paths['db_paths']['directory_path'] = $params['db']['directory_path'];
+      $paths['global_paths'] = $params['global_locations'];
       drush_print_r($paths);
       $msg = rush_message_wrapper(dt(" END PATHS "), 0);
       drush_print_r($msg);
@@ -248,6 +205,36 @@ function _rush_show($params, $mode, $operations) {
       return drush_set_error('DRUSH_RUSH_INVALID_OPTION', $msg);
   }
 }
+
+/**
+ * Help function to select which docs to display information about.
+ *
+ * @return mixed
+ *   FALSE on error.  Array on drush_invoke_process success.
+ */
+function _rush_docs_selection() {
+
+  $topics = array(
+    'rush-ops-tables',
+    'docs-rush-ops-db',
+    'docs-rush-ops-repo',
+    'docs-rush-ops-site',
+    'docs-rush-ops-utility',
+    'docs-rush-ops-filesystem',
+    'docs-rush-ops-host',
+  );
+  $topics = drush_map_assoc($topics);
+  // Present a list of topics as options to the user.
+  $topic = drush_choice($topics, 'Enter a number to choose which topic to read.', '!key');
+  if ($topic !== FALSE) {
+    $args = array($topics[$topic]);
+    return drush_invoke_process('@self', 'topic', $args);
+  }
+
+  return FALSE;
+
+}
+
 
 /** @}*/
 /** @}*/

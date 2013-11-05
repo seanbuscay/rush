@@ -9,7 +9,7 @@ Rush Job Components  {#doc-job-components}
 Rush Job Components   {#page-job-components}
 ====================
 
-@todo Add definiton andicture from use case
+@todo Add definition and picture from use case
 
 ## Jobs and Builds {#sec-builders-jobs-builds}
 

@@ -261,7 +261,7 @@ function rush_op_git_checkout($params) {
 }
 
 /**
- * Run `git checkout -b` to create and checkout a new branch with the specified name.
+ * Run `git checkout -b` to create and checkout a new branch.
  *
  * @param array $params
  *   An associative array of all rush parameters.

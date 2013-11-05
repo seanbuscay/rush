@@ -24,6 +24,8 @@
  */
 
 /**
+ * Export a database to the specified file.
+ *
  * Wrapper for `drush sql-dump`.
  *
  * @param array $params
@@ -62,7 +64,9 @@ function rush_op_sql_dump($params) {
 }
 
 /**
- * Run the sql in $params['db']['file_path']. Uses `drush sql-query`.
+ * Run the sql in the file specified by $params['db']['file_path'].
+ *
+ * Uses `drush sql-query`.
  *
  * @param array $params
  *   An associative array of all rush parameters.
@@ -104,7 +108,7 @@ function rush_op_sql_query_file($params) {
 }
 
 /**
- * Run supplied query using `drush sql-query`.
+ * Run a specified query using `drush sql-query`.
  *
  * @param array $params
  *   An associative array of all rush parameters.
@@ -143,7 +147,7 @@ function rush_op_sql_query($params) {
 }
 
 /**
- * Run supplied query using `drush sql-query`.
+ * Delete the specified data base.
  *
  * @param array $params
  *   An associative array of all rush parameters.
@@ -188,7 +192,9 @@ function rush_op_sql_destroy_db($params) {
 }
 
 /**
- * Wrapper for `drush sql-create`.  Create a database.
+ * Create a database.
+ *
+ * Wrapper for `drush sql-create`.  
  *
  * @param array $params
  *   An associative array of all rush parameters.
