@@ -10,6 +10,12 @@ About Rush  {#page-about-rush}
 
 *Drush tools to enhance and improve Drupal development operations and workflow.*
 
+Rush is a tool to run parameterized builds with Drush.
+
+Rush is like [Apache Ant](http://ant.apache.org/) for Drupal.
+
+Rush uses parameters and processes described in build files to build Drupal project instances.
+
 ## Purpose {#sec-purpose}
 
 The project's purpose is to allow Drupal Developers to:
@@ -19,28 +25,14 @@ The project's purpose is to allow Drupal Developers to:
 
 ## Background {#sec-background}
 
-This project originates out of experience using Jenkins to automate building and testing Drupal projects.
+This project originates out of experience using [Jenkins](http://jenkins-ci.org/) to automate building and testing Drupal projects.
 
-> **Note:** Jenkins is an extendable open source continuous integration server.  Visit: http://jenkins-ci.org/ for more information.
+Rush was created to be a light and focused tool to automate repetitive workflows specifically for Drupal developers.
 
-Beyond its excellent tool set to execute and monitor the results of repeated build jobs, Jenkins is a good tool to automate repetitive workflows for developers.
+Rush is easier to setup and share jobs than it is to setup Jenkins and share its jobs.
 
-For example, if a developer needs to work on a website locally, he or she typically must:
+For those developers already using Drush, Rush should not be a significant change to any current workflows.
 
-1. Get the code via a Versions Control System like git
-2. Switch to a branch or tag to work on
-3. Change or add some parameters in settings files to match the development environment
-4. Get the db export
-5. Create a testing db
-6. Import the db snapshot
-7. Create a local host file entry
-8. Restart Apache
-
-That's eight steps before starting to code.
-
-Jenkins can automate many of these common developer workflows, using job parameters to let developers simply enter a project name and a branch and then run a Jenkins job to do their repetitive build work for them.
-
-Like Jenkins, Drush Rush is a tool to run parameterized builds with Drush.
 In most cases the build jobs are a series of core drush commands chained together to complete a full build process with a single command.
 
 ## A Few Points about Drush Rush Jobs {#sec-about-jobs}

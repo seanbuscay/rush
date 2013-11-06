@@ -2,7 +2,7 @@ Drush Rush
 =========
 Welcome to the Drush Rush Project.
 
-Drush tools to enhance and improve Drupal development operations and workflow.
+*Drush tools to enhance and improve Drupal development operations and workflow.*
 
 The project's purpose is to allow Drupal Developers to:
 
@@ -11,7 +11,15 @@ The project's purpose is to allow Drupal Developers to:
 
 [Issue Management on Drupal.org](https://drupal.org/project/issues/rush)
 
-[An Illustrated Use Case](http://palantirnet.github.io/rush/html/Drush-Rush-Use-Case-Illustration.pdf) | [Documentation](http://palantirnet.github.io/rush/html/) | [Install](http://palantirnet.github.io/rush/html/doc-install-guide.html) | [Releases/What's New](https://github.com/palantirnet/rush/releases) 
+[An Illustrated Use Case](http://palantirnet.github.io/rush/html/Drush-Rush-Use-Case-Illustration.pdf) | [Documentation](http://palantirnet.github.io/rush/html/) | [Install](http://palantirnet.github.io/rush/html/doc-install-guide.html) | [Releases/What's New](https://github.com/palantirnet/rush/releases)
+
+## About Rush
+
+Rush is a tool to run parameterized builds with Drush.
+
+Rush is like [Apache Ant](http://ant.apache.org/) for Drupal.
+
+Rush uses parameters and processes described in build files to build Drupal project instances.
 
 ---
 
@@ -55,30 +63,6 @@ After install, run the following:
 You should see the message `Hello World` in your terminal.
 
 See the [Install Guide](http://palantirnet.github.io/rush/html/doc-install-guide.html) for further detail, dependencies, and requirements.
-
-## Background
-
-This project originates out of experience using Jenkins (http://jenkins-ci.org/ ) to automate building and testing Drupal projects.
-
-Beyond its excellent tool set to execute and monitor the results of repeated build jobs, Jenkins is a good tool to automate repetitive workflows for developers.
-
-For example, if a developer needs to work on a website locally, he or she typically must:
-
-1. Get the code via a Versions Control System like git
-2. Switch to a branch or tag to work on
-3. Change or add some parameters in settings files to match the development environment
-4. Get the db export
-5. Create a testing db
-6. Import the db snapshot
-7. Create a local host file entry
-8. Restart Apache
-
-That's eight steps before starting to code.
-
-Jenkins can automate many of these common developer workflows, using job parameters to let developers simply enter a project name and a branch and then run a Jenkins job to do their repetitive build work for them.
-
-Like Jenkins, Drush Rush is a tool to run parameterized builds with Drush.
-In most cases the build jobs are a series of core drush commands chained together to complete a full build process with a single command.
 
 ### A Few Points about Drush Rush Jobs
 
