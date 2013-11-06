@@ -16,7 +16,7 @@
  */
 
 /**
- * Helper function to confirm important directories exists on the system.
+ * Function to confirm important directories exists on the system.
  *
  * This function is currently not in use.
  *
@@ -73,20 +73,20 @@ function rush_check_directories() {
  */
 function rush_get_global_locations() {
 
-  $global_locations['RUSH_HOME_DIRECTORY_NAME']          = 'Rush';
-  $global_locations['RUSH_MODULE_DIRECTORY_PATH']        = rush_self_path();
-  $global_locations['RUSH_ENVIRONMENT_DIRECTORY_NAME']   = 'environment';
-  $global_locations['RUSH_JOBS_DIRECTORY_NAME']          = 'jobs';
+  $global_locations['RUSH_HOME_DIRECTORY_NAME'] = 'Rush';
+  $global_locations['RUSH_MODULE_DIRECTORY_PATH'] = rush_self_path();
+  $global_locations['RUSH_ENVIRONMENT_DIRECTORY_NAME'] = 'environment';
+  $global_locations['RUSH_JOBS_DIRECTORY_NAME'] = 'jobs';
   $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_NAME'] = 'RushTemplates';
-  $global_locations['RUSH_SERVER_HOME']                  = drush_server_home() . '/';
-  $global_locations['RUSH_HOME_DIRECTORY_PATH']          = $global_locations['RUSH_SERVER_HOME'] . $global_locations['RUSH_HOME_DIRECTORY_NAME'] . '/';
-  $global_locations['RUSH_ENVIRONMENT_DIRECTORY_PATH']   = $global_locations['RUSH_HOME_DIRECTORY_PATH'] . $global_locations['RUSH_ENVIRONMENT_DIRECTORY_NAME'] . '/';
-  $global_locations['RUSH_JOBS_DIRECTORY_PATH']          = $global_locations['RUSH_HOME_DIRECTORY_PATH'] . $global_locations['RUSH_JOBS_DIRECTORY_NAME'] . '/';
+  $global_locations['RUSH_SERVER_HOME'] = drush_server_home() . '/';
+  $global_locations['RUSH_HOME_DIRECTORY_PATH'] = $global_locations['RUSH_SERVER_HOME'] . $global_locations['RUSH_HOME_DIRECTORY_NAME'] . '/';
+  $global_locations['RUSH_ENVIRONMENT_DIRECTORY_PATH'] = $global_locations['RUSH_HOME_DIRECTORY_PATH'] . $global_locations['RUSH_ENVIRONMENT_DIRECTORY_NAME'] . '/';
+  $global_locations['RUSH_JOBS_DIRECTORY_PATH'] = $global_locations['RUSH_HOME_DIRECTORY_PATH'] . $global_locations['RUSH_JOBS_DIRECTORY_NAME'] . '/';
   $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH'] = $global_locations['RUSH_MODULE_DIRECTORY_PATH'] . $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_NAME'] . '/';
-  $args                                                  = drush_get_arguments();
-  $job_arg                                               = $args[1];
-  $job                                                   = str_replace('.', "/", $job_arg);
-  $global_locations['RUSH_JOB_DIRECTORY_PATH']           = $global_locations['RUSH_JOBS_DIRECTORY_PATH'] . $job . '/';
+  $args = drush_get_arguments();
+  $job_arg = $args[1];
+  $job = str_replace('.', "/", $job_arg);
+  $global_locations['RUSH_JOB_DIRECTORY_PATH'] = $global_locations['RUSH_JOBS_DIRECTORY_PATH'] . $job . '/';
   // Check whether the job directory exists.
   if (!is_dir($global_locations['RUSH_JOB_DIRECTORY_PATH'])) {
     // Don't set an error at this time.
@@ -96,7 +96,7 @@ function rush_get_global_locations() {
     // jobs separate from their own jobs and for people who want to update
     // template jobs with a simple replacement of the previous directory.
     $global_locations['RUSH_JOBS_DIRECTORY_PATH'] = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH'];
-    $global_locations['RUSH_JOB_DIRECTORY_PATH']  = $global_locations['RUSH_JOBS_DIRECTORY_PATH'] . $job . '/';
+    $global_locations['RUSH_JOB_DIRECTORY_PATH'] = $global_locations['RUSH_JOBS_DIRECTORY_PATH'] . $job . '/';
   }
   // Check whether this is a sub job and if so, identify the top job directory.
   $job_directories = explode('.', $job_arg);
@@ -108,22 +108,21 @@ function rush_get_global_locations() {
 }
 
 /**
- * List the directories and files in the specified root directory.
+ * Return an array of files and directories in a given directory path.
  *
  * @param string $root
- *   Required.  The root directory to begin listing within.
+ *   Required. The root directory path to start running through.
  *
  * @return array
- *   An array of directories and files.
- *   $files['files'] is a list of all files.
- *   $files['dirs'] is a list of all directories.
+ *   An multi-dimensional array of files and directories.
+ *   `$files = $files['files']` and `$directories = $files['dirs']`
  */
-function rush_list_files($root = '.') {
+function _rush_inspect_directory($root) {
 
-  $files       = array('files' => array(), 'dirs' => array());
+  $files = array('files' => array(), 'dirs' => array());
   $directories = array();
   $last_letter = $root[strlen($root) - 1];
-  $root        = ($last_letter == '\\' || $last_letter == '/') ? $root : $root . DIRECTORY_SEPARATOR;
+  $root = ($last_letter == '\\' || $last_letter == '/') ? $root : $root . DIRECTORY_SEPARATOR;
 
   $directories[] = $root;
 
@@ -132,7 +131,7 @@ function rush_list_files($root = '.') {
     $handle = opendir($dir);
     if ($handle) {
       while (FALSE !== ($file = readdir($handle))) {
-        if ($file == '.' || $file == '..') {
+        if ($file == '.' || $file == '..' || $file == '.git') {
           continue;
         }
         $file = $dir . $file;
@@ -150,6 +149,38 @@ function rush_list_files($root = '.') {
   }
 
   return $files;
+}
+
+
+/**
+ * Return a list of Rush jobs.
+ *
+ * @param string $root
+ *   Required. The root directory path to start running through.
+ * @param string $directory_name
+ *   Required.  The name of the jobs directory.
+ * @param string $rush_dir_name
+ *   Required.  The Rush home directory, usually `~/Rush`.
+ *
+ * @return array
+ *   An array of Rush jobs.
+ */
+function _rush_list_jobs($root, $directory_name, $rush_dir_name) {
+
+  $files = _rush_inspect_directory($root);
+  // Turn the directories list into a list of jobs.
+  $jobs_list = $files['dirs'];
+  // Sort the directory names by alpha order.
+  natcasesort($jobs_list);
+  $jobs = array();
+  foreach ($jobs_list as $job) {
+    $job = explode("/$rush_dir_name/$directory_name/", $job);
+    $job = trim($job[1], '/');
+    $job = str_replace('/', '.', $job);
+    $jobs[] = $job;
+  }
+
+  return $jobs;
 }
 
 /**

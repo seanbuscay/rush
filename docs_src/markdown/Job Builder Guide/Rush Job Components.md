@@ -1,16 +1,19 @@
-Key Terminology  {#doc-key-terminology}
+Rush Job Components  {#doc-job-components}
 ===============
-
-@brief An overview of the terminology and concepts used in Drush Rush.
-
-Key Terminology Page  {#page-key-terminology}
-====================
 
 [TOC]
 
-## Application {#sec-application}
+@brief An overview of the components of Drush Rush jobs.
 
-### Jobs and Builds {#sec-jobs-and-builds}
+
+Rush Job Components   {#page-job-components}
+====================
+
+@todo Add definition and picture from use case
+
+## Jobs and Builds {#sec-builders-jobs-builds}
+
+*Note:* **The following is an extended version of the Jobs and Builds section for Rush users. This version has more information specifically for Rush Job builders. **
 
 The two main components of Drush Rush are **jobs** and **builds**.
 
@@ -38,7 +41,7 @@ To recap:
 - Operations
     - Operations run code commands (often in Drush, shell, php, git, and mysql) to act upon the file system, interact with other systems, and to build Drupal websites.
 
-### File Types {#sec-file-types}
+## File Types {#sec-file-types}
 
 - Parameter Files
     - Contain environmental, application, and job based variables to use at run time to build a project.
@@ -51,10 +54,12 @@ To recap:
     - Most jobs use `rush.ini` files. `rush.php` files give you the option to use business logic when running drush operations.
     - Drush Rush will default to running rush files with the default names of 'rush.ini' or 'rush.php'.
     - You may specify a different rush file to run at runtime by adding the `--rush=<rush_file>` parameter to your drush rush command.
+    
+Example files: @todo
 
-### Directory Structure {#sec-directory-structure}
+## Rush Application Folder {#sec-builders-application-folder}
 
-#### Rush Application Folder  {#sec-application-folder}
+*Note:* **The following is an extended version of the Rush Application Folder section for Rush users. This version has more information specifically for Rush Job builders. **
 
 - Rush (`~/Rush/`)
     - The Drush Rush application folder in your HOME directory, which contains an `environment` directory and a `jobs` directory.
@@ -79,38 +84,8 @@ To recap:
     - By design, a sub job with its own rush operations will still inherit parameters from its parent, but not the rush operations from its parent.
     - Instead, the sub job rush operations file may call the parent job operations to run at any point within its own operations, by using the command `[j] = parentJobName`
 
-See also @ref sec-create-app-directory
 
-## Code {#sec-code}
-
-### Bootstrap Functions {#sec-bootstrap}
-
-Functions necessary for Drush Rush to run.
-
-@see bootstrap
-
-#### Drush Rush Commands {#sec-commands}
-
-- `rush`
-    - Run a rush file with rush operations in it.
-
-- `rush-list`
-    - List rush jobs in the jobs directory.
-
-- `rush-show`
-    - List a job's operations or params.
-
-See @ref doc-commands-help
-
-@see commandcallbacks
-
-#### Drush Rush Helper Functions {#sec-helper}
-
-Take care of validations, parse and derive parameters, and run operations.
-
-@see helpers
-
-### Rush Job Commands and Rush Operations {#sec-operations}
+## Rush Job Commands and Rush Operations {#sec-commands-operations}
 
 There are four types of commands which a Drush Rush job can execute. These are:
 
@@ -121,19 +96,21 @@ There are four types of commands which a Drush Rush job can execute. These are:
 
 The following illustrates example syntax for each command type within a `rush.ini` file:
 
-#### Messages
+### Messages {#sec-commands-operations-messages}
 
 The command below will echo 'Hello World' to the terminal.
 
     [m] = 'Hello World'
 
-#### Jobs
+### Jobs {#sec-commands-operations-jobs}
 
 The command below will run another Rush Job titled, 'beta_site'.
 
     [j] = beta_site
+    
+@todo Add detail.
 
-#### Shell Commands
+### Shell Commands {#sec-commands-operations-shell}
 
  The command below will make a directory called Rush within the working build directory.
 
@@ -147,7 +124,7 @@ The command below will run another Rush Job titled, 'beta_site'.
 
      [c] = 'drush cc all'
 
-#### Operations
+### Operations {#sec-commands-operations-ops}
 
 Operations carry out actions such as to download files, create databases, commit code, install Drupal sites, and run other Drush commands.
 
@@ -170,7 +147,7 @@ The command below will run `git init` within the build directory.
 
 @see rush_op_git_init
 
-##### More About Operations
+#### More About Operations {#sec-commands-operations-ops-more}
 
 Operations map to functions defined in the `operations` directory of the Drush Rush codebase.
 

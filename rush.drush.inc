@@ -16,13 +16,6 @@
  *   3. /usr/share/drush/commands (configurable)
  *   4. In an arbitrary folder specified with the --include option.
  *   5. Drupal's sites/all/drush folder.
- * @backlog Create user stories.
- * @backlog Demo videos.
- * @backlog Code review for code consistency.
- * @backlog Add the ability to pass a parameters file at run time.
- * @backlog Add ability to pass parameters at run time.
- * @backlog Add a"CreateJob" job to create a job skeleton file structure.
- * @todo Write end-user documentation.
  */
 
 require dirname(__FILE__) . '/rush.inc';
@@ -49,84 +42,186 @@ function rush_drush_command() {
   // The 'rush' command.
   $items['rush'] = array(
     'description' => "Run a rush file with rush operations in it.",
-    'arguments'   => array(
-      'job' => 'Required. The name of the job directory within the Rush Application folder.',
+    'arguments' => array(
+      'job' => 'The name of the job directory within the Rush Application folder.  No argument will result in a select list of jobs.',
     ),
-    'options'     => array(
-      'show'   => array(
-        'description'   => 'Show mode. Utility to inspect operations or params without actually running the job.',
+    'options' => array(
+      'show' => array(
+        'description' => 'Show mode. Utility to inspect operations or params without actually running the job.',
         'example-value' => 'ops,params, See drush rush-show -h for more examples.',
       ),
+      'select' => array(
+        'description' => 'Flag to tell rush to list jobs from another location.  Only --select=jt or --select=job-templates are used at this time to list jobs from the job templates folder.',
+        'example-value' => 'job-templates,jt',
+      ),
       'domain' => array(
-        'description'   => 'Domain to use for jobs that use the [build][domain] parameter.',
+        'description' => 'Domain to use for jobs that use the [build][domain] parameter.',
         'example-value' => 'mydomain.local',
       ),
-      'rush'   => array(
-        'description'   => 'Rush prefix to select a different rush.ini or rush.php to run.',
+      'rush' => array(
+        'description' => 'Rush prefix to select a different rush.ini or rush.php to run.',
         'example-value' => 'un,pre-build,post-build',
       ),
+      'branch' => array(
+        'description' => 'Branch to use for jobs that use the [repo][branch] parameter.  This will affect jobs that run the rush clone operation.  Passing this parameter at runtime is a good way to clone a different git branch to run the rush job against.',
+        'example-value' => 'develop,master,sprint1,new-feature',
+      ),
+      'new-branch' => array(
+        'description' => 'New branch name to use for jobs that use the [repo][new_branch] parameter.  This will affect jobs that run the rush branch operation.  Passing this parameter at runtime is a good way to create new feature branches that start from the branch defined in the rush job.',
+        'example-value' => 'new~feature,experiment',
+      ),
+      'create-branch' => array(
+        'description' => 'Create a new branch with the specified name, after all rush operations have run.  This option runs `git branch` after the rush job.  It differs from the `new-branch` option in that this option runs at the end of the job and does not need the rush branch operation to be present in the rush file.',
+        'example-value' => 'new~feature,experiment',
+      ),
+
     ),
-    'examples'    => array(
-      'drush rush jobName'               => 'Run the rush files within the job directory named "jobName"',
-      'drush rush jobName.subJob'        => 'Run the rush files within the job directory named "jobName/subJob"',
-      'drush rush jobName --show=ops'    => 'Parse rush files and output the rush operations that would occur if the rush file were run.',
+    'examples' => array(
+      'drush rush jobName' => 'Run the rush files within the job directory named "jobName"',
+      'drush rush jobName.subJob' => 'Run the rush files within the job directory named "jobName/subJob"',
+      'drush rush jobName --show=ops' => 'Parse rush files and output the rush operations that would occur if the rush file were run.',
       'drush rush jobName --show=params' => 'Parse rush param files and output all params (rush jobName plus global directory) for inspection.',
-      'drush rush jobName --rush=clean'  => 'Run the rush job within the "jobName" and use the rush file `clean.rush.ini` or `clean.rush.php`',
+      'drush rush jobName --rush=clean' => 'Run the rush job within the "jobName" and use the rush file `clean.rush.ini` or `clean.rush.php`',
+      'drush rush jobName --branch=develop' => 'Run the rush job and clone from the `develop` branch, overriding the branch set in the job ini files.',
+      'drush rush jobName --new-branch=experiment' => 'Run the rush job and create a new branch called `experiment` when the `git_branch` rush operation is called.',
     ),
-    'aliases'     => array('dr'),
+    'aliases' => array('dr'),
     // No bootstrap at all.
-    'bootstrap'   => DRUSH_BOOTSTRAP_DRUSH,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
 
   $items['rush-list'] = array(
     'description' => "List the rush jobs in the jobs directory.",
-    'options'     => array(
+    'options' => array(
       'show' => array(
-        'description'   => 'Show mode. Utility to inspect operations or params without actually running the job.',
+        'description' => 'Show mode. Utility to inspect operations or params without actually running the job.',
         'example-value' => 'job-templates,jt',
       ),
     ),
-    'examples'    => array(
-      'drush rush-list'           => 'List all the jobs in the job directory.',
+    'examples' => array(
+      'drush rush-list' => 'List all the jobs in the job directory.',
       'drush rush-list --show=jt' => 'List all the jobs in the job templates directory.',
     ),
-    'aliases'     => array('drl'),
+    'aliases' => array('drl'),
     // No bootstrap at all.
-    'bootstrap'   => DRUSH_BOOTSTRAP_DRUSH,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
   );
 
   $items['rush-show'] = array(
     'description' => 'A utility to inspect operations or params without actually running a job.  This is a convenience command which does the same thing as running rush with the --show option.',
-    'arguments'   => array(
-      'job'       => 'Required. The name of the job directory within the Rush Application folder.',
+    'arguments' => array(
+      'job' => 'Required. The name of the job directory within the Rush Application folder.',
       'show_mode' => 'Required. The name of the job directory within the Rush Application folder.',
     ),
-    'options'     => array(
+    'options' => array(
       'domain' => array(
-        'description'   => 'Domain to use for jobs that use the [build][domain] parameter.',
+        'description' => 'Domain to use for jobs that use the [build][domain] parameter.',
         'example-value' => 'mydomain.local',
       ),
-      'rush'   => array(
-        'description'   => 'Rush prefix to select a different rush.ini or rush.php to run.',
+      'rush' => array(
+        'description' => 'Rush prefix to select a different rush.ini or rush.php to run.',
         'example-value' => 'un,pre-build,post-build',
       ),
     ),
-    'examples'    => array(
-      'drush rush-show jobName params'   => 'Show all parameters the job may use.',
-      'drush rush-show jobName ops'      => 'Show all ops the job will run.',
-      'drush rush-show jobName help'     => 'Show the job description and help text.',
-      'drush rush-show jobName h'        => 'Alias for --show=help',
+    'examples' => array(
+      'drush rush-show jobName params' => 'Show all parameters the job may use.',
+      'drush rush-show jobName ops' => 'Show all ops the job will run.',
+      'drush rush-show jobName help' => 'Show the job description and help text.',
+      'drush rush-show jobName h' => 'Alias for --show=help',
       'drush rush-show jobName derived ' => 'Show the parameters which rush derived for the job.',
-      'drush rush-show jobName si'       => 'Show the parameters which the si operation would use if run.',
-      'drush rush-show jobName db'       => 'Show the parameters which db operations would use if run.',
-      'drush rush-show jobName repo'     => 'Show the parameters which repo operations would use if run.',
-      'drush rush-show jobName env'      => 'Show the environment parameters.',
-      'drush rush-show jobName build'    => 'Show all build parameters the job may use.',
-      'drush rush-show jobName paths'    => 'Show all paths the job may use.',
+      'drush rush-show jobName si' => 'Show the parameters which the si operation would use if run.',
+      'drush rush-show jobName db' => 'Show the parameters which db operations would use if run.',
+      'drush rush-show jobName repo' => 'Show the parameters which repo operations would use if run.',
+      'drush rush-show jobName env' => 'Show the environment parameters.',
+      'drush rush-show jobName build' => 'Show all build parameters the job may use.',
+      'drush rush-show jobName paths' => 'Show all paths the job may use.',
     ),
-    'aliases'     => array('drs'),
+    'aliases' => array('drs'),
     // No bootstrap at all.
-    'bootstrap'   => DRUSH_BOOTSTRAP_DRUSH,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+  );
+
+  // Add docs topic.
+  $docs_dir = rush_self_path() . 'operations/';
+
+  $items['rush-docs'] = array(
+    'description' => 'Rush: Topics List',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => '_rush_docs_selection',
+  );
+
+  $ops = array(
+    'db',
+    'repo',
+    'site',
+    'utilities',
+    'filesystem',
+    'host',
+  );
+
+  $items['rush-ops-tables'] = array(
+    'description' => 'Rush: Display a summary tables of rush operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => '_rush_print_ops_tables',
+    'callback arguments' => array($ops),
+  );
+
+  $items['docs-rush-ops-db'] = array(
+    'description' => 'Rush: DB operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.db.inc'),
+  );
+
+  $items['docs-rush-ops-repo'] = array(
+    'description' => 'Rush: Repo operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.repo.inc'),
+  );
+
+  $items['docs-rush-ops-site'] = array(
+    'description' => 'Rush: Site operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.site.inc'),
+  );
+
+  $items['docs-rush-ops-host'] = array(
+    'description' => 'Rush: Host operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.host.inc'),
+  );
+
+  $items['docs-rush-ops-filesystem'] = array(
+    'description' => 'Rush: Filesystem operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.filesystem.inc'),
+  );
+
+  $items['docs-rush-ops-utility'] = array(
+    'description' => 'Rush: Utility operations.',
+    'hidden' => TRUE,
+    'topic' => TRUE,
+    'bootstrap' => DRUSH_BOOTSTRAP_DRUSH,
+    'callback' => 'rush_print_function_blocks',
+    'callback arguments' => array($docs_dir . 'rush.utilities.inc'),
   );
 
   return $items;
@@ -139,7 +234,7 @@ function rush_drush_help($section) {
 
   switch ($section) {
     case 'drush:rush':
-      return dt('Run rush operations defined in Rush job files. Drush rush is a tool to enhance and improve Drupal development operations and work flow.');
+      return dt('Run rush operations defined in Rush job files. Drush rush is a tool to enhance and improve Drupal development operations and work flow. Run `drush rush-docs` for further help.');
 
     case 'drush:rush-list':
       return dt('List all the jobs in the Rush Application folder jobs directory.');
@@ -155,9 +250,6 @@ function rush_drush_help($section) {
 function drush_rush_validate() {
 
   $args = drush_get_arguments();
-  if (!isset($args[1])) {
-    return drush_set_error('MISSING_ARGUMENT', dt('Please supply a job as an argument.'));
-  }
   if (isset($args[2])) {
     return drush_set_error('EXTRA_ARGUMENT', dt('It looks like you added a second argument.  Did you mean to add a parameter instead, such as --show=params?'));
   }
@@ -197,9 +289,50 @@ function drush_rush_list_validate() {
  *   FALSE on failure.
  */
 function drush_rush() {
+  $args = drush_get_arguments();
+  // Check for the job argument.
+  if (!isset($args[1])) {
+    $global_locations = rush_get_global_locations();
+    // Set default values.
+    $directory_path = $global_locations['RUSH_JOBS_DIRECTORY_PATH'];
+    $directory_name = $global_locations['RUSH_JOBS_DIRECTORY_NAME'];
+    $rush_dir_name = $global_locations['RUSH_HOME_DIRECTORY_NAME'];
 
-  $params          = rush_get_params();
+    if (drush_get_option('select', FALSE)) {
+      $select = drush_get_option('select');
+      switch ($select) {
+        case 'job-templates':
+        case 'jt':
+          $directory_path = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH'];
+          $directory_name = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_NAME'];
+          $rush_dir_name = trim($global_locations['RUSH_MODULE_DIRECTORY_PATH'], '/');
+          break;
+      }
+    }
+
+    // Get the jobs list.
+    $jobs = _rush_list_jobs($directory_path, $directory_name, $rush_dir_name);
+    $jobs = drush_map_assoc($jobs);
+    // Present a list of jobs as options to the user.
+    $job = drush_choice($jobs, 'Enter a number to choose which job to run.', '!key');
+    if ($job !== FALSE) {
+      $args[1] = $jobs[$job];
+      drush_set_arguments($args);
+    }
+    else {
+      $msg = dt('[Rush]: !message', array('!message' => 'Canceled'));
+      drush_log($msg, 'status');
+
+      return;
+    }
+  }
+
+  $params = rush_get_params();
   $rush_operations = rush_get_operations($params);
+  if (drush_get_option('create-branch', FALSE)) {
+    $rush_operations[]['f'] = 'git_create_branch';
+
+  }
   if (drush_get_option('show', FALSE)) {
     $show_mode = drush_get_option('show');
 
@@ -259,10 +392,10 @@ function drush_rush_list() {
 
   $global_locations = rush_get_global_locations();
   // Set default values.
-  $files          = rush_list_files($global_locations['RUSH_JOBS_DIRECTORY_PATH']);
-  $msg            = rush_message_wrapper(dt('JOBS LIST'), 0);
+  $msg = rush_message_wrapper(dt('JOBS LIST'), 0);
+  $directory_path = $global_locations['RUSH_JOBS_DIRECTORY_PATH'];
   $directory_name = $global_locations['RUSH_JOBS_DIRECTORY_NAME'];
-  $rush_dir_name  = $global_locations['RUSH_HOME_DIRECTORY_NAME'];
+  $rush_dir_name = $global_locations['RUSH_HOME_DIRECTORY_NAME'];
 
   // If the show option is set to jt then list jobs in the job_templates
   // directory.
@@ -271,10 +404,10 @@ function drush_rush_list() {
     switch ($show_mode) {
       case 'job-templates':
       case 'jt':
-        $files          = rush_list_files($global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH']);
-        $msg            = rush_message_wrapper(dt('JOB TEMPLATES LIST'), 0);
+        $msg = rush_message_wrapper(dt('JOB TEMPLATES LIST'), 0);
+        $directory_path = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_PATH'];
         $directory_name = $global_locations['RUSH_JOB_TEMPLATES_DIRECTORY_NAME'];
-        $rush_dir_name  = trim($global_locations['RUSH_MODULE_DIRECTORY_PATH'], '/');
+        $rush_dir_name = trim($global_locations['RUSH_MODULE_DIRECTORY_PATH'], '/');
         break;
 
       case 'locations':
@@ -295,15 +428,10 @@ function drush_rush_list() {
 
   // Tell the user what list they will get.
   drush_print($msg);
-  $jobs_list = $files['dirs'];
-  // Sort the directory names by alpha order.
-  natcasesort($jobs_list);
-
-  foreach ($jobs_list as $job) {
-    $job = explode("/$rush_dir_name/$directory_name/", $job);
-    $job = trim($job[1], '/');
-    $job = str_replace('/', '.', $job);
-    drush_print_r($job);
+  // Get the jobs list.
+  $jobs = _rush_list_jobs($directory_path, $directory_name, $rush_dir_name);
+  foreach ($jobs as $job) {
+    drush_print($job);
   }
   $msg = rush_message_wrapper(dt('END LIST'), 0);
   drush_print($msg);
@@ -321,9 +449,9 @@ function drush_rush_list() {
  */
 function drush_rush_show() {
 
-  $params          = rush_get_params();
+  $params = rush_get_params();
   $rush_operations = rush_get_operations($params);
-  $args            = drush_get_arguments();
+  $args = drush_get_arguments();
   if (isset($args[2])) {
     $show_mode = $args[2];
 
@@ -397,10 +525,8 @@ function rush_job_exec($job) {
 
   $command = 'drush rush ' . $job;
   if (drush_shell_exec($command)) {
-    $results = drush_shell_exec_output();
-    foreach ($results as $result) {
-      drush_print($result);
-    }
+    $result = drush_shell_exec_output();
+    drush_print($result);
 
     $msg = dt('[RUSH JOB EXEC]: !command', array('!command' => $command));
     drush_log($msg, 'success');

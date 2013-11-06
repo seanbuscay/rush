@@ -65,6 +65,66 @@ function rush_op_make($params) {
 }
 
 /**
+ * Wrapper for drush variable-set.
+ *
+ * This rush command takes an array of Drupal variable names and their values
+ * and sets them with "drush variable-set"
+ *
+ * @param array $params
+ *   An associative array of all rush parameters.
+ *   - $params['build']['site_alias_record'] array
+ *   Required. A drush site alias record.
+ *   - $params['drupal_variables'] array
+ *   Required. A flat array with variable names as keys and their values as
+ *   the array values. For example:
+ *   $params['drupal_variables'] = array(
+ *     'site_name' => 'My Great Blog Site',
+ *     'clean_url' => '1',
+ *   );
+ *
+ * @return bool
+ *   TRUE on success.  FALSE with errors.
+ */
+function rush_op_set_drupal_variables($params) {
+
+  if (empty($params['drupal_variables'])) {
+    return rush_empty_error('$params[\'drupal_variables\']', __FUNCTION__);
+  }
+
+  if (empty($params['build']['site_alias_record'])) {
+    return rush_empty_error('$params[\'build\'][\'site_alias_record\']', __FUNCTION__);
+  }
+
+  // These two variables will be passed to rush_invoke inside of the foreach
+  // loop below. These two variables do not change based on the loop.
+  $alias = $params['build']['site_alias_record'];
+  // Use the exact flag because the parameters file should only use exact
+  // variable names.
+  $options = array(
+    '--exact',
+  );
+
+  foreach ($params['drupal_variables'] as $variable_name => $variable_value) {
+    // The variable name and value are passed to "drush variable-set"
+    $args = array(
+      $variable_name,
+      $variable_value,
+    );
+
+    // If a variable-set attempt fails (rush_invoke returns TRUE or FALSE)
+    // then return FALSE immediately, even if the foreach looping has not
+    // reached it's last item.
+    if (FALSE === rush_invoke($alias, 'variable-set', $args, $options, __FUNCTION__)) {
+      return FALSE;
+    }
+  }
+
+  // If the foreach loop was completed without any fails, return TRUE because
+  // all variable-sets have succeeded.
+  return TRUE;
+}
+
+/**
  * Wrapper for `drush site-install`.
  *
  * @param array $params
