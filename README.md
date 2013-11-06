@@ -11,7 +11,7 @@ The project's purpose is to allow Drupal Developers to:
 
 [Issue Management on Drupal.org](https://drupal.org/project/issues/rush)
 
-[An Illustrated Use Case](http://palantirnet.github.io/rush/html/Drush-Rush-Use-Case-Illustration.pdf) | [Documentation](http://palantirnet.github.io/rush/html/) | [Install](http://palantirnet.github.io/rush/html/doc-install-guide.html) | [Releases](https://github.com/palantirnet/rush/releases) | [What's New](http://palantirnet.github.io/rush/html/doc-whats-new.html)
+[An Illustrated Use Case](http://palantirnet.github.io/rush/html/Drush-Rush-Use-Case-Illustration.pdf) | [Documentation](http://palantirnet.github.io/rush/html/) | [Install](http://palantirnet.github.io/rush/html/doc-install-guide.html) | [Releases/What's New](https://github.com/palantirnet/rush/releases) 
 
 ---
 
@@ -58,9 +58,7 @@ See the [Install Guide](http://palantirnet.github.io/rush/html/doc-install-guide
 
 ## Background
 
-This project originates out of experience using Jenkins to automate building and testing Drupal projects.
-
-> **Note:** Jenkins is an extendable open source continuous integration server.  Visit: http://jenkins-ci.org/ for more information.
+This project originates out of experience using Jenkins (http://jenkins-ci.org/ ) to automate building and testing Drupal projects.
 
 Beyond its excellent tool set to execute and monitor the results of repeated build jobs, Jenkins is a good tool to automate repetitive workflows for developers.
 
