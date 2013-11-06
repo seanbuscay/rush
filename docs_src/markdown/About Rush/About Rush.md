@@ -78,9 +78,3 @@ To parse the job folder's rush files for build parameters and build operations a
 14. Run any post-build scripts
 15. Put the build under version control
 16. Create a remote repo (such as on GITHUB), commit the code, and push it
-
-## What's New {#sec-whats-new-link}
-
-Notes to help you find what out what's new with Drush Rush.
-
-@ref doc-whats-new
