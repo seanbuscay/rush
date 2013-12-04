@@ -335,6 +335,13 @@ function rush_op_delete_vhost($params) {
  */
 function rush_op_restart_apache($params = array()) {
 
+  if (isset($params['env']['apache_restart_command'])) {
+    // Restart Apache using the command defined in the env parameter group.
+    // Note this parameter should contain full path and command information.
+    // If sudo is required, then add sudo to the front of the command.
+    return drush_shell_exec($params['env']['apache_restart_command']);
+  }
+
   // For now just assuming Ubuntu Linux or Darwin OSX.
   $os = PHP_OS;
   switch ($os) {
