@@ -62,7 +62,7 @@ After install, run the following:
 
 You should see the message `Hello World` in your terminal.
 
-See the [Install Guide](http://palantirnet.github.io/rush/html/doc-install-guide.html) for further detail, dependencies, and requirements.
+*Important:* See the [Install Guide](http://palantirnet.github.io/rush/html/doc-install-guide.html) for further detail, dependencies, and requirements.
 
 ### A Few Points about Drush Rush Jobs
 
