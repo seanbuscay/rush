@@ -1,22 +1,12 @@
-What's New  {#doc-whats-new}
+Branching Options from the Command Line  {#doc-branching-options-from-command-line}
 ===============
 
 [TOC]
 
-@brief Notes to help you find what out what's new with Drush Rush.
+@brief Notes about Branching Options from the Command Line 
 
-What's New  {#page-whats-new}
+Branching Options from the Command Line  {#page-branching-options-from-command-line}
 ====================
-
-## Oct 6, 2013 - Environment Based Global Pre and Post Operations {#sec-10-6-2013}
-
-Suppose you want to automatically install the Drupal Coder module on every Drush Rush built site. Simply add a new file called `post.rush.ini` to your `environment` folder. Then add rush commands to it like any other rush file.  In this case add:
-
-    [c] = 'drush dl coder; drush en -y coder' 
-
-From now on, **every** rush job that runs on your local system will have a last command in it to download and enable the coder module. 
-
-##  Sep 23, 2013 - New Branching Options from the Command Line {#sec-09-06-2013}
 
 We have three new options which can be used when calling the `drush rush` command.
 

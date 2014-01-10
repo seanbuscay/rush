@@ -108,6 +108,14 @@ There are two main commands for Drush Rush:
 
 See @ref doc-commands-examples
 
+### Environment Based Global Pre and Post Operations {#sec-environment-based-global-pre-post}
+
+See @ref doc-environment-based-global-pre-post
+
+### Branching Options from the Command Line  {#sec-branching-options-from-command-line}
+
+See @ref doc-branching-options-from-command-line
+
 ## Job Templates {#sec-job-templates}
 
 There are a number of example jobs in the  [RushTemplates](https://github.com/seanbuscay/rush/tree/master/RushTemplates) directory.

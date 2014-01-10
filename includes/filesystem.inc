@@ -73,7 +73,16 @@ function rush_check_directories() {
  */
 function rush_get_global_locations() {
 
+
+  /*! @rgl $global_locations['RUSH_HOME_DIRECTORY_NAME'] = 'Rush';
+  The Rush "application" folder.
+  The Rush folder should be in the user's home directory and should be named
+  "Rush". Uses drush_server_home() to find the home directory.
+  */
   $global_locations['RUSH_HOME_DIRECTORY_NAME'] = 'Rush';
+  /*! @rgl $global_locations['RUSH_MODULE_DIRECTORY_PATH'] = rush_self_path();
+  The rush module directory path.
+  */
   $global_locations['RUSH_MODULE_DIRECTORY_PATH'] = rush_self_path();
   $global_locations['RUSH_ENVIRONMENT_DIRECTORY_NAME'] = 'environment';
   $global_locations['RUSH_JOBS_DIRECTORY_NAME'] = 'jobs';

@@ -16,7 +16,7 @@ Rush Install Guide  {#page-install-guide}
 1.  The `rush` module directory
 2.  The `Rush` application folder (directory) within your HOME directory
 
-Note the lowercase and the uppercase titles for the directories.
+*Note* the lowercase and the uppercase titles for the directories.
 
 The `rush` module directory contains the rush module code, like any other Drush module.
 The `Rush` application folder will contain your configurations, and Rush jobs.
@@ -60,10 +60,6 @@ After the command runs, you should have a folder named Rush in your HOME directo
 ### 3.  Set Your Environment Parameters {#sec-set-parameters}
 
 Within your new params file `~/Rush/environment/params.ini`, add parameters which define your personal development environment.
-
-Drush Rush will derive many of your environment parameters for you.
-
-#### Rush Environment Params Examples
 
 See @ref doc-env-params-examples
 
