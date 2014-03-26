@@ -23,7 +23,7 @@ ENV Environment variables
 ## Virtual Hosts Directory Path
 Tells Rush where to look when it sets up new virtual hosts for you.
 
-### Default: 
+### Default:
 /etc/apache2/sites-available/
 
 ### Example:
