@@ -5,6 +5,31 @@ Rush Environment Params Examples  {#doc-env-params-examples}
 
 @brief todo
 
+DB Environment variables
+====================
+
+## Server
+Tells Rush what server to use.
+
+### Default:
+localhost
+
+### Example:
+server = 127.0.0.1
+
+ENV Environment variables
+====================
+
+## Virtual Hosts Directory Path
+Tells Rush where to look when it sets up new virtual hosts for you.
+
+### Default: 
+/etc/apache2/sites-available/
+
+### Example:
+vhosts_dir_path = '/Applications/MAMP/conf/apache/sites-available/'
+
+
 Rush Environment Params Examples  {#page-env-params-examples}
 ====================
 
